@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="zh-HK">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>香港特別行政區 訴 馮子濠 (771/2026) - 第一視角時間綫系統</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500;700&display=swap');
+        body { font-family: 'Noto+Sans+TC', sans-serif; }
+    </style>
+</head>
+<body class="bg-slate-100 text-slate-800 min-h-screen flex flex-col">
+
+    <!-- 頂部標題列 -->
+    <header class="bg-slate-900 text-white shadow-md py-6 px-4">
+        <div class="max-w-6xl mx-auto flex flex-col md:flex-row justify-between items-center">
+            <div>
+                <span class="bg-indigo-600 text-xs font-semibold px-2.5 py-1 rounded-full uppercase tracking-wide">模擬法庭 2026-2027 初賽</span>
+                <h1 class="text-2xl md:text-3xl font-bold mt-1">香港特別行政區 訴 馮子濠</h1>
+                <p class="text-slate-400 text-sm mt-1">刑事案件 2026年第771號 | 控罪：猥褻侵犯 (香港法例第200章第122條)</p>
+            </div>
+            <div class="mt-4 md:mt-0 text-right">
+                <span class="text-xs bg-slate-800 text-slate-300 px-3 py-1.5 rounded border border-slate-700">案發日期：2026年5月18日</span>
+            </div>
+        </div>
+    </header>
+
+    <!-- 主要內容區 -->
+    <main class="flex-grow max-w-6xl w-full mx-auto p-4 md:p-6 grid grid-cols-1 lg:grid-cols-4 gap-6">
+        
+        <!-- 左側：證人選擇導航欄 -->
+        <aside class="lg:col-span-1 bg-white rounded-xl shadow-sm p-4 border border-slate-200">
+            <h2 class="text-sm font-bold text-slate-400 uppercase tracking-wider mb-3 px-2">選擇證人視角</h2>
+            <div class="space-y-2" id="witness-tabs">
+                <!-- 控方證人 -->
+                <div class="text-xs font-semibold text-rose-600 px-2 pt-2 pb-1">控方證人</div>
+                <button onclick="selectWitness('wendy')" id="btn-wendy" class="witness-btn w-full text-left px-3 py-2.5 rounded-lg text-sm font-medium transition flex items-center justify-between bg-rose-50 text-rose-700 border border-rose-200">
+                    <span>溫海晴 <span class="text-xs font-normal opacity-75">(事主)</span></span>
+                    <span class="text-xs bg-rose-200 text-rose-800 px-1.5 py-0.5 rounded">控1</span>
+                </button>
+                <button onclick="selectWitness('tsui')" id="btn-tsui" class="witness-btn w-full text-left px-3 py-2.5 rounded-lg text-sm font-medium transition flex items-center justify-between text-slate-600 hover:bg-slate-50">
+                    <span>徐語晞 <span class="text-xs font-normal opacity-75">(好友)</span></span>
+                    <span class="text-xs bg-slate-200 text-slate-700 px-1.5 py-0.5 rounded">控2</span>
+                </button>
+                <button onclick="selectWitness('lam')" id="btn-lam" class="witness-btn w-full text-left px-3 py-2.5 rounded-lg text-sm font-medium transition flex items-center justify-between text-slate-600 hover:bg-slate-50">
+                    <span>林允嵐 <span class="text-xs font-normal opacity-75">(同學/旁觀)</span></span>
+                    <span class="text-xs bg-slate-200 text-slate-700 px-1.5 py-0.5 rounded">控3</span>
+                </button>
+
+                <!-- 辯方證人 -->
+                <div class="text-xs font-semibold text-indigo-600 px-2 pt-4 pb-1">辯方證人</div>
+                <button onclick="selectWitness('fung')" id="btn-fung" class="witness-btn w-full text-left px-3 py-2.5 rounded-lg text-sm font-medium transition flex items-center justify-between text-slate-600 hover:bg-slate-50">
+                    <span>馮子濠 <span class="text-xs font-normal opacity-75">(被告)</span></span>
+                    <span class="text-xs bg-slate-200 text-slate-700 px-1.5 py-0.5 rounded">辯1</span>
+                </button>
+                <button onclick="selectWitness('leung')" id="btn-leung" class="witness-btn w-full text-left px-3 py-2.5 rounded-lg text-sm font-medium transition flex items-center justify-between text-slate-600 hover:bg-slate-50">
+                    <span>梁逸辰 <span class="text-xs font-normal opacity-75">(夜跑路人)</span></span>
+                    <span class="text-xs bg-slate-200 text-slate-700 px-1.5 py-0.5 rounded">辯2</span>
+                </button>
+                <button onclick="selectWitness('chow')" id="btn-chow" class="witness-btn w-full text-left px-3 py-2.5 rounded-lg text-sm font-medium transition flex items-center justify-between text-slate-600 hover:bg-slate-50">
+                    <span>周俊川 <span class="text-xs font-normal opacity-75">(同事/好友)</span></span>
+                    <span class="text-xs bg-slate-200 text-slate-700 px-1.5 py-0.5 rounded">辯3</span>
+                </button>
+            </div>
+        </aside>
+
+        <!-- 右側：時間綫內容顯示區 -->
+        <section class="lg:col-span-3 bg-white rounded-xl shadow-sm p-6 border border-slate-200 flex flex-col">
+            <!-- 證人檔案標頭 -->
+            <div id="witness-header" class="border-b border-slate-100 pb-4 mb-6">
+                <div class="flex items-center justify-between">
+                    <div>
+                        <h2 id="w-name" class="text-2xl font-bold text-slate-900">溫海晴</h2>
+                        <p id="w-meta" class="text-sm text-slate-500 mt-0.5">19歲/女 | 香城大學工商管理一年級學生 | 控方證人（事主）</p>
+                    </div>
+                    <span id="w-badge" class="px-3 py-1 rounded-full text-xs font-medium bg-rose-100 text-rose-800">控方證人</span>
+                </div>
+            </div>
+
+            <!-- 時間綫容器 -->
+            <div id="timeline-container" class="relative pl-6 space-y-8 before:absolute before:left-2.5 before:top-2 before:bottom-2 before:w-0.5 before:bg-slate-200">
+                <!-- 動態插入時間綫節點 -->
+            </div>
+        </section>
+
+    </main>
+
+    <!-- 頁尾 -->
+    <footer class="text-center py-4 text-xs text-slate-400 border-t border-slate-200 mt-auto">
+        「模擬法庭@正向思維」計劃 2026-2027 | 案件資料庫第一視角檢視器
+    </footer>
+
+    <!-- JavaScript 邏輯與數據 -->
+    <script>
+        const witnessData = {
+            wendy: {
+                name: "溫海晴",
+                meta: "19歲/女 | 香城大學工商管理一年級學生 | 視力及聽力良好",
+                badgeClass: "bg-rose-100 text-rose-800",
+                badgeText: "控方證人 (事主)",
+                events: [
+                    { time: "2026年 2月初", title: "交友軟體相識", desc: "透過 Omi 認識馮子濠，情人節當晚開始在 WhatsApp 對話，因音樂與電影話題投契。" },
+                    { time: "2026年 4月18日", title: "首次見面約會", desc: "在觀塘 APM 用膳並於海濱長廊散步。因海風大感到寒冷，馮借出外套。當晚表現規矩有禮，留下不錯印象。" },
+                    { time: "2026年 5月18日 14:00", title: "下午逛街與提及晚餐", desc: "與徐語晞、林允嵐在觀塘逛街，身穿白色針織圓領上衣及黑色薄紗長裙（證物P2），向兩人提及當晚會與馮子濠在觀塘翠屏道居酒屋晚餐。" },
+                    { time: "2026年 5月18日 19:30", title: "居酒屋晚飯", desc: "與馮子濠在炭火居酒屋會面。飯氣氛融洽但馮曾喝酒。晚上約9時45分結帳離去時，馮面部微紅且帶有酒氣。" },
+                    { time: "2026年 5月18日 22:15", title: "進入翠屏河公園長椅", desc: "應馮提議到翠屏河公園散步，在中央園圃旁較安靜一側的木長椅坐下（左邊馮，右邊海晴）。" },
+                    { time: "2026年 5月18日 22:45-22:50", title: "傾訴與安慰", desc: "馮訴說童年挫折眼眶泛紅，海晴出於同情拍其右肩並給予簡短安慰擁抱隨即退回。因馮喝酒咬字含糊且有風聲，稍微側向馮身旁傾聽。" },
+                    { time: "2026年 5月18日 22:50", title: "遭受非禮時刻（案發）", desc: "馮突然用右手按在其長裙左邊大腿外側，貼實並來回用力推抹兩下，更用力捏臀部一下。海晴非常驚訝反感，僵硬兩秒後轉頭堅決說「唔好啦！」並推開其手臂。馮隨即用右手摟其右腰並向上摸至胸部。" },
+                    { time: "2026年 5月18日 22:52", title: "驚慌逃跑", desc: "拿起放置膝上的手袋，轉身跑離公園，在翠屏道行人路上致電徐語晞無人接聽，隨即搭的士回家，收到馮的 WhatsApp 道歉訊息（證物P1）。" },
+                    { time: "2026年 5月19日 01:08", title: "回電好友與報案", desc: "徐語晞回電，海晴哭訴被摸大腿、臀部、腰及胸部的經過，隨後在徐語晞陪同下前往觀塘警署報案。" }
+                ]
+            },
+            tsui: {
+                name: "徐語晞",
+                meta: "19歲/女 | 香城大學工商管理一年級學生 | 溫海晴好友",
+                badgeClass: "bg-rose-100 text-rose-800",
+                badgeText: "控方證人",
+                events: [
+                    { time: "2026年 5月18日 下午", title: "逛街與知悉約會", desc: "與海晴、林允嵐在觀塘逛街，得知海晴晚上與馮子濠晚餐。下午約5時因身體不適先行搭車回家吃藥休息。" },
+                    { time: "2026年 5月19日 01:00", title: "醒來發現未接來電", desc: "睡醒後發現手機在昨晚10:55有海晴的未接來電。" },
+                    { time: "2026年 5月19日 01:08", title: "接到海晴哭訴電話", desc: "回電給海晴，聽到海晴在電話那頭哭得很厲害，抽泣著講述在公園被馮子濠「抓落大腿、捏屁股、摸腰和胸」的經過。" },
+                    { time: "2026年 5月19日 01:18", title: "陪伴報案決定", desc: "聽後認為馮子濠行為極度不尊重，極力安慰海晴並堅定答應立刻搭車陪同她前往警署報案。" }
+                ]
+            },
+            lam: {
+                name: "林允嵐",
+                meta: "19歲/女 | 香城大學社會科學系一年級學生 | 溫海晴中學同學",
+                badgeClass: "bg-rose-100 text-rose-800",
+                badgeText: "控方證人",
+                events: [
+                    { time: "2026年 5月18日 下午", title: "下午聚會與了解", desc: "與海晴、語晞逛街。海晴表示對馮有好感但只作普通朋友聚會，若氣氛不合適會找藉口離開。傍晚約6時45分各自離開。" },
+                    { time: "2026年 5月18日 22:30", title: "公園無意撞見", desc: "完成小組功課步行經翠屏河公園，看見海晴與深色襯衫男子（馮子濠）坐在中央園圃木長椅。出於關心，在15米外斜對角小石凳坐下觀察。見兩人坐很近，馮拉海晴手、搭左肩，海晴顯得不知所措並拍馮一下作安慰後退回。" },
+                    { time: "2026年 5月18日 22:45", title: "暫離買飲品", desc: "感到口渴，到大約80米外便利店買飲品，來回離開約6至8分鐘。" },
+                    { time: "2026年 5月18日 22:53", title: "見海晴慌張逃跑", desc: "拿飲品走回公園入口時，看見海晴神色慌張、急步低頭從側門跑出（似有淚光），而馮子濠則在長椅低頭看手機。當時以為兩人鬧情緒未有叫停。" },
+                    { time: "2026年 5月19日 早上", title: "聽取哭訴與道歉訊息", desc: "大學見面時海晴雙眼紅腫哭訴被非禮經過，並展示了凌晨1:02馮子濠傳來的 WhatsApp 道歉訊息，確信海晴情緒真實、絕非憑空捏造。" }
+                ]
+            },
+            fung: {
+                name: "馮子濠",
+                meta: "20歲/男 | 理想大學護理學二年級學生 | 被告",
+                badgeClass: "bg-indigo-100 text-indigo-800",
+                badgeText: "辯方證人 (被告)",
+                events: [
+                    { time: "2026年 2月初至4月18日", title: "認識與初次約會", desc: "Omi認識，4月18日首次約會（APM晚飯、海濱散步借外套），視海晴為發展情侶對象，日常通訊熱絡。" },
+                    { time: "2026年 5月18日 19:30", title: "居酒屋晚餐", desc: "在觀塘炭火居酒屋晚餐，點了清酒與海晴共飲。" },
+                    { time: "2026年 5月18日 22:15", title: "公園長椅互動", desc: "散步至中央園圃木長椅坐下（左馮右晴）。牽手十指緊扣。向海晴傾訴童年家事落淚，海晴溫柔用雙肩環抱安慰。" },
+                    { time: "2026年 5月18日 22:50", title: "搭大腿與誤解發生", desc: "擁抱後海晴挨得很近。因環境暗且有酒意，以為雙方互相吸引，順勢將右手輕輕搭在海晴左邊大腿外側（放2-3秒）。海晴說「唔好啦」且語氣害羞、推開手臂，馮以為是初約害羞而立刻收手。隨後海晴突然拿手袋快步跑走，令他十分愕然。" },
+                    { time: "2026年 5月18日 23:15", title: "致電同事求助", desc: "步行回家途中致電兼職同事周俊川傾訴公園發生的困惑狀況。" },
+                    { time: "2026年 5月19日 01:02", title: "發送 WhatsApp 道歉", desc: "傳送訊息道歉（解釋因喝酒控制不好、若冒犯求原諒），純粹希望化解誤會，無非禮意圖。" }
+                ]
+            },
+            leung: {
+                name: "梁逸辰",
+                meta: "26歲/男 | 資訊科技工程師 | 獨立夜跑證人",
+                badgeClass: "bg-indigo-100 text-indigo-800",
+                badgeText: "辯方證人",
+                events: [
+                    { time: "2026年 5月18日 22:35", title: "夜跑拉筋路過", desc: "夜跑至翠屏河公園中央園圃旁空地拉筋（距離木長椅5-6米）。見馮子濠與溫海晴坐長椅（馮右溫左）。" },
+                    { time: "2026年 5月18日 22:35 - 22:50", title: "觀察親密互動", desc: "拉筋十多分鐘期間，見兩人坐很近、牽手、女方神態自然。男方說話情緒激動，女方主動側身擁抱男方肩膀，肩膀緊貼，互動親密像情侶，女方自願且無抗拒爭執。" },
+                    { time: "2026年 5月18日 22:50", title: "目擊搭大腿經過", desc: "正面向長椅拉筋，見馮順勢將右手放在溫海晴裙大腿上（歷時2-3秒），首一兩秒女方無強烈反抗。" },
+                    { time: "2026年 5月18日 22:50打後", title: "推開與離去", desc: "溫海晴坐直身體推開馮手臂，說了聲「唔好啦」（語氣輕柔平靜，非受驚尖叫，像情侶撒嬌）。馮隨即收手，但隨後溫突然拿手袋快步跑走，馮顯得愕然看手機，全程無大聲呼救。" }
+                ]
+            },
+            chow: {
+                name: "周俊川",
+                meta: "20歲/男 | 理想大學物理治療學二年級 | 馮子濠同事兼好友",
+                badgeClass: "bg-indigo-100 text-indigo-800",
+                badgeText: "辯方證人",
+                events: [
+                    { time: "2026年 5月18日 16:00", title: "圖書館當值交流", desc: "在大學圖書館當值，見馮子濠換了整齊深藍色長袖襯衫，十分期待晚上的約會。下午6:30交更出發。" },
+                    { time: "2026年 5月18日 23:15", title: "接到馮子濠求助電話", desc: "接到馮子濠打來的電話，馮語氣極為慌亂困惑，訴說公園長椅事件（牽手、海晴主動抱、自己輕輕搭大腿、海晴說「唔好啦」推開後跑走）。" },
+                    { time: "2026年 5月18日 23:30", title: "給予建議", desc: "認為馮非存心侵犯，只是氣氛下誤解意圖，建議馮透過 WhatsApp 誠懇道歉解釋誤會後掛斷電話。" }
+                ]
+            }
+        };
+
+        function selectWitness(key) {
+            // 樣式切換
+            document.querySelectorAll('.witness-btn').forEach(btn => {
+                btn.className = "witness-btn w-full text-left px-3 py-2.5 rounded-lg text-sm font-medium transition flex items-center justify-between text-slate-600 hover:bg-slate-50";
+            });
+            const activeBtn = document.getElementById(`btn-${key}`);
+            activeBtn.className = "witness-btn w-full text-left px-3 py-2.5 rounded-lg text-sm font-medium transition flex items-center justify-between bg-rose-50 text-rose-700 border border-rose-200 shadow-sm";
+
+            // 載入資料
+            const data = witnessData[key];
+            document.getElementById('w-name').innerText = data.name;
+            document.getElementById('w-meta').innerText = data.meta;
+            const badge = document.getElementById('w-badge');
+            badge.className = `px-3 py-1 rounded-full text-xs font-medium ${data.badgeClass}`;
+            badge.innerText = data.badgeText;
+
+            // 渲染時間綫
+            const container = document.getElementById('timeline-container');
+            container.innerHTML = '';
+
+            data.events.forEach((ev, index) => {
+                const item = document.createElement('div');
+                item.className = "relative pl-6 group";
+                item.innerHTML = `
+                    <div class="absolute -left-[25px] top-1.5 w-4 h-4 rounded-full bg-white border-4 border-indigo-600 group-hover:scale-110 transition"></div>
+                    <div class="bg-slate-50 rounded-lg p-4 border border-slate-200 hover:shadow-md transition">
+                        <span class="text-xs font-bold text-indigo-600 bg-indigo-50 px-2 py-0.5 rounded border border-indigo-100">${ev.time}</span>
+                        <h3 class="text-base font-bold text-slate-900 mt-2">${ev.title}</h3>
+                        <p class="text-sm text-slate-600 mt-1 leading-relaxed">${ev.desc}</p>
+                    </div>
+                `;
+                container.appendChild(item);
+            });
+        }
+
+        // 初始化預設載入溫海晴
+        window.onload = function() {
+            selectWitness('wendy');
+        };
+    </script>
+</body>
+</html>
