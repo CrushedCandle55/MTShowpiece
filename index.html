@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>香港特別行政區 訴 馮子濠 (771/2026) - 第一視角時間綫系統</title>
+    <title>香港特別行政區 訴 馮子濠 (771/2026) - 第一視角互動調查遊戲</title>
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
@@ -11,207 +11,351 @@
         body { font-family: 'Noto+Sans+TC', sans-serif; }
     </style>
 </head>
-<body class="bg-slate-100 text-slate-800 min-h-screen flex flex-col">
+<body class="bg-slate-950 text-slate-100 min-h-screen flex flex-col selection:bg-rose-500 selection:text-white">
 
-    <!-- 頂部標題列 -->
-    <header class="bg-slate-900 text-white shadow-md py-6 px-4">
-        <div class="max-w-6xl mx-auto flex flex-col md:flex-row justify-between items-center">
+    <!-- 遊戲頂部導航列 -->
+    <header class="bg-slate-900 border-b border-slate-800 sticky top-0 z-50 py-3 px-6 shadow-xl">
+        <div class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-3">
             <div>
-                <span class="bg-indigo-600 text-xs font-semibold px-2.5 py-1 rounded-full uppercase tracking-wide">模擬法庭 2026-2027 初賽</span>
-                <h1 class="text-2xl md:text-3xl font-bold mt-1">香港特別行政區 訴 馮子濠</h1>
-                <p class="text-slate-400 text-sm mt-1">刑事案件 2026年第771號 | 控罪：猥褻侵犯 (香港法例第200章第122條)</p>
+                <div class="flex items-center space-x-2">
+                    <span class="bg-rose-600 text-white text-xs font-bold px-2.5 py-0.5 rounded-full uppercase tracking-wider">模擬法庭互動遊戲</span>
+                    <span class="text-xs text-slate-400">刑事案件 2026年第771號[span_1](start_span)[span_1](end_span)</span>
+                </div>
+                <h1 class="text-xl md:text-2xl font-extrabold mt-1 text-white">香港特別行政區 訴 馮子濠[span_2](start_span)[span_2](end_span)</h1>
             </div>
-            <div class="mt-4 md:mt-0 text-right">
-                <span class="text-xs bg-slate-800 text-slate-300 px-3 py-1.5 rounded border border-slate-700">案發日期：2026年5月18日</span>
+            <!-- 遊戲模式切換按鈕 -->
+            <div class="flex space-x-2 bg-slate-950 p-1 rounded-xl border border-slate-800">
+                <button onclick="switchTab('pov')" id="tab-pov" class="px-4 py-2 rounded-lg text-xs font-bold transition bg-rose-600 text-white shadow-md">🕵️‍♂️ 證人第一視角</button>
+                <button onclick="switchTab('evidence')" id="tab-evidence" class="px-4 py-2 rounded-lg text-xs font-bold transition text-slate-400 hover:text-white">📂 證物鑑證室</button>
+                <button onclick="switchTab('quiz')" id="tab-quiz" class="px-4 py-2 rounded-lg text-xs font-bold transition text-slate-400 hover:text-white">⚖️ 法庭攻防挑戰</button>
             </div>
         </div>
     </header>
 
-    <!-- 主要內容區 -->
-    <main class="flex-grow max-w-6xl w-full mx-auto p-4 md:p-6 grid grid-cols-1 lg:grid-cols-4 gap-6">
-        
-        <!-- 左側：證人選擇導航欄 -->
-        <aside class="lg:col-span-1 bg-white rounded-xl shadow-sm p-4 border border-slate-200">
-            <h2 class="text-sm font-bold text-slate-400 uppercase tracking-wider mb-3 px-2">選擇證人視角</h2>
-            <div class="space-y-2" id="witness-tabs">
-                <!-- 控方證人 -->
-                <div class="text-xs font-semibold text-rose-600 px-2 pt-2 pb-1">控方證人</div>
-                <button onclick="selectWitness('wendy')" id="btn-wendy" class="witness-btn w-full text-left px-3 py-2.5 rounded-lg text-sm font-medium transition flex items-center justify-between bg-rose-50 text-rose-700 border border-rose-200">
-                    <span>溫海晴 <span class="text-xs font-normal opacity-75">(事主)</span></span>
-                    <span class="text-xs bg-rose-200 text-rose-800 px-1.5 py-0.5 rounded">控1</span>
-                </button>
-                <button onclick="selectWitness('tsui')" id="btn-tsui" class="witness-btn w-full text-left px-3 py-2.5 rounded-lg text-sm font-medium transition flex items-center justify-between text-slate-600 hover:bg-slate-50">
-                    <span>徐語晞 <span class="text-xs font-normal opacity-75">(好友)</span></span>
-                    <span class="text-xs bg-slate-200 text-slate-700 px-1.5 py-0.5 rounded">控2</span>
-                </button>
-                <button onclick="selectWitness('lam')" id="btn-lam" class="witness-btn w-full text-left px-3 py-2.5 rounded-lg text-sm font-medium transition flex items-center justify-between text-slate-600 hover:bg-slate-50">
-                    <span>林允嵐 <span class="text-xs font-normal opacity-75">(同學/旁觀)</span></span>
-                    <span class="text-xs bg-slate-200 text-slate-700 px-1.5 py-0.5 rounded">控3</span>
-                </button>
+    <!-- 主要遊戲舞台 -->
+    <main class="flex-grow max-w-7xl w-full mx-auto p-4 md:p-6">
 
-                <!-- 辯方證人 -->
-                <div class="text-xs font-semibold text-indigo-600 px-2 pt-4 pb-1">辯方證人</div>
-                <button onclick="selectWitness('fung')" id="btn-fung" class="witness-btn w-full text-left px-3 py-2.5 rounded-lg text-sm font-medium transition flex items-center justify-between text-slate-600 hover:bg-slate-50">
-                    <span>馮子濠 <span class="text-xs font-normal opacity-75">(被告)</span></span>
-                    <span class="text-xs bg-slate-200 text-slate-700 px-1.5 py-0.5 rounded">辯1</span>
-                </button>
-                <button onclick="selectWitness('leung')" id="btn-leung" class="witness-btn w-full text-left px-3 py-2.5 rounded-lg text-sm font-medium transition flex items-center justify-between text-slate-600 hover:bg-slate-50">
-                    <span>梁逸辰 <span class="text-xs font-normal opacity-75">(夜跑路人)</span></span>
-                    <span class="text-xs bg-slate-200 text-slate-700 px-1.5 py-0.5 rounded">辯2</span>
-                </button>
-                <button onclick="selectWitness('chow')" id="btn-chow" class="witness-btn w-full text-left px-3 py-2.5 rounded-lg text-sm font-medium transition flex items-center justify-between text-slate-600 hover:bg-slate-50">
-                    <span>周俊川 <span class="text-xs font-normal opacity-75">(同事/好友)</span></span>
-                    <span class="text-xs bg-slate-200 text-slate-700 px-1.5 py-0.5 rounded">辯3</span>
-                </button>
-            </div>
-        </aside>
+        <!-- 模式一：證人第一視角調查 -->
+        <div id="section-pov" class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+            <!-- 左側：證人選擇選單 -->
+            <div class="lg:col-span-4 bg-slate-900/90 rounded-2xl p-4 border border-slate-800 shadow-xl h-fit">
+                <h2 class="text-xs font-bold text-slate-400 uppercase tracking-widest mb-3 px-2">選擇調查對象 (6位證人)</h2>
+                <div class="space-y-2" id="witness-list">
+                    <!-- 控方 -->
+                    <div class="text-[11px] font-bold text-rose-400 px-2 pt-2 pb-1">控方陣營[span_3](start_span)[span_3](end_span)</div>
+                    <button onclick="selectWitness('wendy')" id="btn-wendy" class="w-full text-left p-3 rounded-xl transition bg-rose-600/20 text-rose-300 border border-rose-500/40 font-bold flex justify-between items-center">
+                        <span>溫海晴 <span class="text-xs font-normal opacity-75">(事主)</span>[span_4](start_span)[span_4](end_span)</span>
+                        <span class="text-[10px] bg-rose-500/30 px-2 py-0.5 rounded">控1[span_5](start_span)[span_5](end_span)</span>
+                    </button>
+                    <button onclick="selectWitness('tsui')" id="btn-tsui" class="w-full text-left p-3 rounded-xl transition text-slate-300 hover:bg-slate-800 border border-transparent flex justify-between items-center">
+                        <span>徐語晞 <span class="text-xs font-normal opacity-75">(好友)</span>[span_6](start_span)[span_6](end_span)</span>
+                        <span class="text-[10px] bg-slate-800 text-slate-400 px-2 py-0.5 rounded">控2[span_7](start_span)[span_7](end_span)</span>
+                    </button>
+                    <button onclick="selectWitness('lam')" id="btn-lam" class="w-full text-left p-3 rounded-xl transition text-slate-300 hover:bg-slate-800 border border-transparent flex justify-between items-center">
+                        <span>林允嵐 <span class="text-xs font-normal opacity-75">(旁觀同學)</span>[span_8](start_span)[span_8](end_span)</span>
+                        <span class="text-[10px] bg-slate-800 text-slate-400 px-2 py-0.5 rounded">控3[span_9](start_span)[span_9](end_span)</span>
+                    </button>
 
-        <!-- 右側：時間綫內容顯示區 -->
-        <section class="lg:col-span-3 bg-white rounded-xl shadow-sm p-6 border border-slate-200 flex flex-col">
-            <!-- 證人檔案標頭 -->
-            <div id="witness-header" class="border-b border-slate-100 pb-4 mb-6">
-                <div class="flex items-center justify-between">
-                    <div>
-                        <h2 id="w-name" class="text-2xl font-bold text-slate-900">溫海晴</h2>
-                        <p id="w-meta" class="text-sm text-slate-500 mt-0.5">19歲/女 | 香城大學工商管理一年級學生 | 控方證人（事主）</p>
-                    </div>
-                    <span id="w-badge" class="px-3 py-1 rounded-full text-xs font-medium bg-rose-100 text-rose-800">控方證人</span>
+                    <!-- 辯方 -->
+                    <div class="text-[11px] font-bold text-indigo-400 px-2 pt-4 pb-1">辯方陣營[span_10](start_span)[span_10](end_span)</div>
+                    <button onclick="selectWitness('fung')" id="btn-fung" class="w-full text-left p-3 rounded-xl transition text-slate-300 hover:bg-slate-800 border border-transparent flex justify-between items-center">
+                        <span>馮子濠 <span class="text-xs font-normal opacity-75">(被告)</span>[span_11](start_span)[span_11](end_span)</span>
+                        <span class="text-[10px] bg-slate-800 text-slate-400 px-2 py-0.5 rounded">辯1[span_12](start_span)[span_12](end_span)</span>
+                    </button>
+                    <button onclick="selectWitness('leung')" id="btn-leung" class="w-full text-left p-3 rounded-xl transition text-slate-300 hover:bg-slate-800 border border-transparent flex justify-between items-center">
+                        <span>梁逸辰 <span class="text-xs font-normal opacity-75">(夜跑路人)</span>[span_13](start_span)[span_13](end_span)</span>
+                        <span class="text-[10px] bg-slate-800 text-slate-400 px-2 py-0.5 rounded">辯2[span_14](start_span)[span_14](end_span)</span>
+                    </button>
+                    <button onclick="selectWitness('chow')" id="btn-chow" class="w-full text-left p-3 rounded-xl transition text-slate-300 hover:bg-slate-800 border border-transparent flex justify-between items-center">
+                        <span>周俊川 <span class="text-xs font-normal opacity-75">(同事好友)</span>[span_15](start_span)[span_15](end_span)</span>
+                        <span class="text-[10px] bg-slate-800 text-slate-400 px-2 py-0.5 rounded">辯3[span_16](start_span)[span_16](end_span)</span>
+                    </button>
                 </div>
             </div>
 
-            <!-- 時間綫容器 -->
-            <div id="timeline-container" class="relative pl-6 space-y-8 before:absolute before:left-2.5 before:top-2 before:bottom-2 before:w-0.5 before:bg-slate-200">
-                <!-- 動態插入時間綫節點 -->
+            <!-- 右側：互動時間綫與第一視角敘事 -->
+            <div class="lg:col-span-8 bg-slate-900/90 rounded-2xl p-6 border border-slate-800 shadow-xl flex flex-col">
+                <div id="witness-profile" class="border-b border-slate-800 pb-4 mb-6">
+                    <div class="flex justify-between items-start">
+                        <div>
+                            <h2 id="p-name" class="text-2xl font-bold text-white">溫海晴</h2>
+                            <p id="p-meta" class="text-xs text-slate-400 mt-1">19歲/女 | 香城大學工商管理一年級學生 | 視力及聽力良好[span_17](start_span)[span_17](end_span)</p>
+                        </div>
+                        <span id="p-badge" class="px-3 py-1 rounded-full text-xs font-semibold bg-rose-500/20 text-rose-300 border border-rose-500/40">控方證人 (事主)[span_18](start_span)[span_18](end_span)[span_19](start_span)[span_19](end_span)</span>
+                    </div>
+                </div>
+
+                <!-- 互動時間綫 -->
+                <div class="relative pl-6 space-y-6 before:absolute before:left-2.5 before:top-2 before:bottom-2 before:w-0.5 before:bg-gradient-to-b before:from-rose-500 before:via-indigo-500 before:to-slate-800" id="pov-timeline">
+                    <!-- 動態載入時間節點 -->
+                </div>
             </div>
-        </section>
+        </div>
+
+        <!-- 模式二：證物鑑證室 -->
+        <div id="section-evidence" class="hidden space-y-6">
+            <div class="bg-slate-900/90 rounded-2xl p-6 border border-slate-800 shadow-xl">
+                <h2 class="text-xl font-bold text-white mb-2">📂 案件證物一覽表</h2>
+                <p class="text-xs text-slate-400 mb-6">點擊下方證物卡片，查看詳細證物描述與法庭調查重點[span_20](start_span)[span_20](end_span)。支控雙方對此有不同解讀。</p>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4" id="evidence-grid">
+                    <!-- 證物由 JS 動態生成 -->
+                </div>
+            </div>
+        </div>
+
+        <!-- 模式三：法庭攻防挑戰 (互動問答遊戲) -->
+        <div id="section-quiz" class="hidden space-y-6">
+            <div class="bg-slate-900/90 rounded-2xl p-6 md:p-8 border border-slate-800 shadow-xl max-w-3xl mx-auto">
+                <div class="flex justify-between items-center mb-6 border-b border-slate-800 pb-4">
+                    <div>
+                        <span class="bg-indigo-600 text-white text-xs px-2.5 py-1 rounded font-bold">法庭盤問挑戰</span>
+                        <h2 class="text-xl font-bold text-white mt-1">測試你對案情與證供的掌握</h2>
+                    </div>
+                    <div id="quiz-progress" class="text-xs text-slate-400">題目 1 / 4</div>
+                </div>
+
+                <div id="quiz-container">
+                    <!-- 題目內容 -->
+                </div>
+            </div>
+        </div>
 
     </main>
 
     <!-- 頁尾 -->
-    <footer class="text-center py-4 text-xs text-slate-400 border-t border-slate-200 mt-auto">
-        「模擬法庭@正向思維」計劃 2026-2027 | 案件資料庫第一視角檢視器
+    <footer class="text-center py-6 text-xs text-slate-500 border-t border-slate-800 mt-auto bg-slate-950">
+        香港特別行政區訴馮子濠 (771/2026) 互動法庭教育遊戲[span_21](start_span)[span_21](end_span)
     </footer>
 
-    <!-- JavaScript 邏輯與數據 -->
+    <!-- 遊戲互動邏輯 Script -->
     <script>
+        // 證人數據庫
         const witnessData = {
             wendy: {
                 name: "溫海晴",
-                meta: "19歲/女 | 香城大學工商管理一年級學生 | 視力及聽力良好",
-                badgeClass: "bg-rose-100 text-rose-800",
-                badgeText: "控方證人 (事主)",
+                meta: "19歲/女 | 香城大學工商管理一年級學生 | 視力及聽力良好[span_22](start_span)[span_22](end_span)",
+                badge: "控方證人 (事主)[span_23](start_span)[span_23](end_span)[span_24](start_span)[span_24](end_span)",
+                badgeClass: "bg-rose-500/20 text-rose-300 border border-rose-500/40",
                 events: [
-                    { time: "2026年 2月初", title: "交友軟體相識", desc: "透過 Omi 認識馮子濠，情人節當晚開始在 WhatsApp 對話，因音樂與電影話題投契。" },
-                    { time: "2026年 4月18日", title: "首次見面約會", desc: "在觀塘 APM 用膳並於海濱長廊散步。因海風大感到寒冷，馮借出外套。當晚表現規矩有禮，留下不錯印象。" },
-                    { time: "2026年 5月18日 14:00", title: "下午逛街與提及晚餐", desc: "與徐語晞、林允嵐在觀塘逛街，身穿白色針織圓領上衣及黑色薄紗長裙（證物P2），向兩人提及當晚會與馮子濠在觀塘翠屏道居酒屋晚餐。" },
-                    { time: "2026年 5月18日 19:30", title: "居酒屋晚飯", desc: "與馮子濠在炭火居酒屋會面。飯氣氛融洽但馮曾喝酒。晚上約9時45分結帳離去時，馮面部微紅且帶有酒氣。" },
-                    { time: "2026年 5月18日 22:15", title: "進入翠屏河公園長椅", desc: "應馮提議到翠屏河公園散步，在中央園圃旁較安靜一側的木長椅坐下（左邊馮，右邊海晴）。" },
-                    { time: "2026年 5月18日 22:45-22:50", title: "傾訴與安慰", desc: "馮訴說童年挫折眼眶泛紅，海晴出於同情拍其右肩並給予簡短安慰擁抱隨即退回。因馮喝酒咬字含糊且有風聲，稍微側向馮身旁傾聽。" },
-                    { time: "2026年 5月18日 22:50", title: "遭受非禮時刻（案發）", desc: "馮突然用右手按在其長裙左邊大腿外側，貼實並來回用力推抹兩下，更用力捏臀部一下。海晴非常驚訝反感，僵硬兩秒後轉頭堅決說「唔好啦！」並推開其手臂。馮隨即用右手摟其右腰並向上摸至胸部。" },
-                    { time: "2026年 5月18日 22:52", title: "驚慌逃跑", desc: "拿起放置膝上的手袋，轉身跑離公園，在翠屏道行人路上致電徐語晞無人接聽，隨即搭的士回家，收到馮的 WhatsApp 道歉訊息（證物P1）。" },
-                    { time: "2026年 5月19日 01:08", title: "回電好友與報案", desc: "徐語晞回電，海晴哭訴被摸大腿、臀部、腰及胸部的經過，隨後在徐語晞陪同下前往觀塘警署報案。" }
+                    { time: "2026年 2月初", title: "交友軟體 Omi 相識", desc: "情人節當晚開始在 WhatsApp 對話，因音樂與電影話題投契[span_25](start_span)[span_25](end_span)。" },
+                    { time: "2026年 4月18日", title: "首次見面約會", desc: "觀塘 APM 用膳及海濱散步。馮借出外套，表現規矩有禮，留下不錯印象[span_26](start_span)[span_26](end_span)。" },
+                    { time: "2026年 5月18日 19:30", title: "居酒屋晚飯", desc: "於炭火居酒屋會面，氣氛融洽但馮曾喝酒。9時45分結帳時馮面部微紅帶酒氣[span_27](start_span)[span_27](end_span)。" },
+                    { time: "2026年 5月18日 22:50", title: "🚨 案發關鍵時刻", desc: "馮突然用右手按在其長裙左大腿外側、推抹並捏臀部。海晴僵硬兩秒後推開並說「唔好啦！」，馮隨即摟腰摸胸[span_28](start_span)[span_28](end_span)。" },
+                    { time: "2026年 5月19日 01:08", title: "報案求助", desc: "逃回家後收到馮的 WhatsApp 道歉訊息（證物 P1），隨後與徐語晞通話並前往警署報案[span_29](start_span)[span_29](end_span)[span_30](start_span)[span_30](end_span)。" }
                 ]
             },
             tsui: {
                 name: "徐語晞",
-                meta: "19歲/女 | 香城大學工商管理一年級學生 | 溫海晴好友",
-                badgeClass: "bg-rose-100 text-rose-800",
-                badgeText: "控方證人",
+                meta: "19歲/女 | 香城大學工商管理一年級學生 | 溫海晴好友[span_31](start_span)[span_31](end_span)",
+                badge: "控方證人[span_32](start_span)[span_32](end_span)[span_33](start_span)[span_33](end_span)",
+                badgeClass: "bg-rose-500/20 text-rose-300 border border-rose-500/40",
                 events: [
-                    { time: "2026年 5月18日 下午", title: "逛街與知悉約會", desc: "與海晴、林允嵐在觀塘逛街，得知海晴晚上與馮子濠晚餐。下午約5時因身體不適先行搭車回家吃藥休息。" },
-                    { time: "2026年 5月19日 01:00", title: "醒來發現未接來電", desc: "睡醒後發現手機在昨晚10:55有海晴的未接來電。" },
-                    { time: "2026年 5月19日 01:08", title: "接到海晴哭訴電話", desc: "回電給海晴，聽到海晴在電話那頭哭得很厲害，抽泣著講述在公園被馮子濠「抓落大腿、捏屁股、摸腰和胸」的經過。" },
-                    { time: "2026年 5月19日 01:18", title: "陪伴報案決定", desc: "聽後認為馮子濠行為極度不尊重，極力安慰海晴並堅定答應立刻搭車陪同她前往警署報案。" }
+                    { time: "2026年 5月18日 下午", title: "逛街與知悉約會", desc: "與海晴逛街得知晚飯約會，下午因身體不適先行回家吃藥休息[span_34](start_span)[span_34](end_span)。" },
+                    { time: "2026年 5月19日 01:00", title: "發現未接來電", desc: "醒來發現手機在昨晚 10:55 有海晴的未接來電[span_35](start_span)[span_35](end_span)。" },
+                    { time: "2026年 5月19日 01:08", title: "深夜通話哭訴", desc: "回電聽到海晴痛哭講述被非禮經過（抓大腿、捏屁股、摸腰胸）[span_36](start_span)[span_36](end_span)。" },
+                    { time: "2026年 5月19日 01:18", title: "堅定陪伴報案", desc: "認為馮行為極度不尊重，第一時間安撫並答應陪同前往警署報案[span_37](start_span)[span_37](end_span)。" }
                 ]
             },
             lam: {
                 name: "林允嵐",
-                meta: "19歲/女 | 香城大學社會科學系一年級學生 | 溫海晴中學同學",
-                badgeClass: "bg-rose-100 text-rose-800",
-                badgeText: "控方證人",
+                meta: "19歲/女 | 香城大學社會科學系一年級學生 | 中學同學[span_38](start_span)[span_38](end_span)",
+                badge: "控方證人[span_39](start_span)[span_39](end_span)[span_40](start_span)[span_40](end_span)",
+                badgeClass: "bg-rose-500/20 text-rose-300 border border-rose-500/40",
                 events: [
-                    { time: "2026年 5月18日 下午", title: "下午聚會與了解", desc: "與海晴、語晞逛街。海晴表示對馮有好感但只作普通朋友聚會，若氣氛不合適會找藉口離開。傍晚約6時45分各自離開。" },
-                    { time: "2026年 5月18日 22:30", title: "公園無意撞見", desc: "完成小組功課步行經翠屏河公園，看見海晴與深色襯衫男子（馮子濠）坐在中央園圃木長椅。出於關心，在15米外斜對角小石凳坐下觀察。見兩人坐很近，馮拉海晴手、搭左肩，海晴顯得不知所措並拍馮一下作安慰後退回。" },
-                    { time: "2026年 5月18日 22:45", title: "暫離買飲品", desc: "感到口渴，到大約80米外便利店買飲品，來回離開約6至8分鐘。" },
-                    { time: "2026年 5月18日 22:53", title: "見海晴慌張逃跑", desc: "拿飲品走回公園入口時，看見海晴神色慌張、急步低頭從側門跑出（似有淚光），而馮子濠則在長椅低頭看手機。當時以為兩人鬧情緒未有叫停。" },
-                    { time: "2026年 5月19日 早上", title: "聽取哭訴與道歉訊息", desc: "大學見面時海晴雙眼紅腫哭訴被非禮經過，並展示了凌晨1:02馮子濠傳來的 WhatsApp 道歉訊息，確信海晴情緒真實、絕非憑空捏造。" }
+                    { time: "2026年 5月18日 22:30", title: "公園無意撞見", desc: "完成功課經翠屏河公園，見海晴與馮坐長椅，在 15米外石凳觀察，見馮拉手搭肩[span_41](start_span)[span_41](end_span)。" },
+                    { time: "2026年 5月18日 22:45", title: "暫離買飲品", desc: "前往 80米外便利店買飲品，離開約 6至8 分鐘[span_42](start_span)[span_42](end_span)。" },
+                    { time: "2026年 5月18日 22:53", title: "目擊慌張逃跑", desc: "折返時見海晴神色慌張帶淚光跑出公園，馮則在長椅低頭看手機[span_43](start_span)[span_43](end_span)。" },
+                    { time: "2026年 5月19日 早上", title: "大學哭訴與展示訊息", desc: "見海晴雙眼紅腫哭訴，並向其展示馮於凌晨 1:02 發送的 WhatsApp 道歉訊息[span_44](start_span)[span_44](end_span)[span_45](start_span)[span_45](end_span)。" }
                 ]
             },
             fung: {
                 name: "馮子濠",
-                meta: "20歲/男 | 理想大學護理學二年級學生 | 被告",
-                badgeClass: "bg-indigo-100 text-indigo-800",
-                badgeText: "辯方證人 (被告)",
+                meta: "20歲/男 | 理想大學護理學二年級學生 | 被告[span_46](start_span)[span_46](end_span)",
+                badge: "辯方證人 (被告)[span_47](start_span)[span_47](end_span)",
+                badgeClass: "bg-indigo-500/20 text-indigo-300 border border-indigo-500/40",
                 events: [
-                    { time: "2026年 2月初至4月18日", title: "認識與初次約會", desc: "Omi認識，4月18日首次約會（APM晚飯、海濱散步借外套），視海晴為發展情侶對象，日常通訊熱絡。" },
-                    { time: "2026年 5月18日 19:30", title: "居酒屋晚餐", desc: "在觀塘炭火居酒屋晚餐，點了清酒與海晴共飲。" },
-                    { time: "2026年 5月18日 22:15", title: "公園長椅互動", desc: "散步至中央園圃木長椅坐下（左馮右晴）。牽手十指緊扣。向海晴傾訴童年家事落淚，海晴溫柔用雙肩環抱安慰。" },
-                    { time: "2026年 5月18日 22:50", title: "搭大腿與誤解發生", desc: "擁抱後海晴挨得很近。因環境暗且有酒意，以為雙方互相吸引，順勢將右手輕輕搭在海晴左邊大腿外側（放2-3秒）。海晴說「唔好啦」且語氣害羞、推開手臂，馮以為是初約害羞而立刻收手。隨後海晴突然拿手袋快步跑走，令他十分愕然。" },
-                    { time: "2026年 5月18日 23:15", title: "致電同事求助", desc: "步行回家途中致電兼職同事周俊川傾訴公園發生的困惑狀況。" },
-                    { time: "2026年 5月19日 01:02", title: "發送 WhatsApp 道歉", desc: "傳送訊息道歉（解釋因喝酒控制不好、若冒犯求原諒），純粹希望化解誤會，無非禮意圖。" }
+                    { time: "2026年 4月18日", title: "首次約會發展", desc: "Omi 認識後海濱散步借外套，日常通訊熱絡，視海晴為情侶發展對象[span_48](start_span)[span_48](end_span)。" },
+                    { time: "2026年 5月18日 22:15", title: "長椅親密互動", desc: "十指緊扣，向海晴傾訴童年家事落淚，獲海晴溫柔主動環抱安慰[span_49](start_span)[span_49](end_span)。" },
+                    { time: "2026年 5月18日 22:50", title: "💡 誤解搭腿瞬間", desc: "因氣氛曖昧且有酒意，順勢將手搭在大腿 2-3 秒。聽到「唔好啦」且見推開即收手，對海晴突然跑走感到愕然[span_50](start_span)[span_50](end_span)。" },
+                    { time: "2026年 5月19日 01:02", title: "發送 WhatsApp 道歉", desc: "因擔心誤會透過 WhatsApp 發送誠懇道歉與解釋訊息，絕無非禮意圖[span_51](start_span)[span_51](end_span)[span_52](start_span)[span_52](end_span)。" }
                 ]
             },
             leung: {
                 name: "梁逸辰",
-                meta: "26歲/男 | 資訊科技工程師 | 獨立夜跑證人",
-                badgeClass: "bg-indigo-100 text-indigo-800",
-                badgeText: "辯方證人",
+                meta: "26歲/男 | 資訊科技工程師 | 獨立夜跑證人[span_53](start_span)[span_53](end_span)",
+                badge: "辯方證人[span_54](start_span)[span_54](end_span)[span_55](start_span)[span_55](end_span)",
+                badgeClass: "bg-indigo-500/20 text-indigo-300 border border-indigo-500/40",
                 events: [
-                    { time: "2026年 5月18日 22:35", title: "夜跑拉筋路過", desc: "夜跑至翠屏河公園中央園圃旁空地拉筋（距離木長椅5-6米）。見馮子濠與溫海晴坐長椅（馮右溫左）。" },
-                    { time: "2026年 5月18日 22:35 - 22:50", title: "觀察親密互動", desc: "拉筋十多分鐘期間，見兩人坐很近、牽手、女方神態自然。男方說話情緒激動，女方主動側身擁抱男方肩膀，肩膀緊貼，互動親密像情侶，女方自願且無抗拒爭執。" },
-                    { time: "2026年 5月18日 22:50", title: "目擊搭大腿經過", desc: "正面向長椅拉筋，見馮順勢將右手放在溫海晴裙大腿上（歷時2-3秒），首一兩秒女方無強烈反抗。" },
-                    { time: "2026年 5月18日 22:50打後", title: "推開與離去", desc: "溫海晴坐直身體推開馮手臂，說了聲「唔好啦」（語氣輕柔平靜，非受驚尖叫，像情侶撒嬌）。馮隨即收手，但隨後溫突然拿手袋快步跑走，馮顯得愕然看手機，全程無大聲呼救。" }
+                    { time: "2026年 5月18日 22:35", title: "夜跑拉筋路過", desc: "於中央園圃旁空地拉筋（距離長椅 5-6米），見兩人坐長椅互動親密像情侶[span_56](start_span)[span_56](end_span)。" },
+                    { time: "2026年 5月18日 22:50", title: "客觀目擊接觸", desc: "見馮搭大腿 2-3秒，女方隨後坐直說「唔好啦」（語氣輕柔像撒嬌，無尖叫呼救），馮隨即收手[span_57](start_span)[span_57](end_span)。" },
+                    { time: "2026年 5月18日 22:50打後", title: "女方自行離開", desc: "隨後海晴拿手袋快步跑離，馮愕然看手機，全程無激烈爭執與呼救[span_58](start_span)[span_58](end_span)。" }
                 ]
             },
             chow: {
                 name: "周俊川",
-                meta: "20歲/男 | 理想大學物理治療學二年級 | 馮子濠同事兼好友",
-                badgeClass: "bg-indigo-100 text-indigo-800",
-                badgeText: "辯方證人",
+                meta: "20歲/男 | 理想大學物理治療學二年級 | 馮子濠好友[span_59](start_span)[span_59](end_span)",
+                badge: "辯方證人[span_60](start_span)[span_60](end_span)[span_61](start_span)[span_61](end_span)",
+                badgeClass: "bg-indigo-500/20 text-indigo-300 border border-indigo-500/40",
                 events: [
-                    { time: "2026年 5月18日 16:00", title: "圖書館當值交流", desc: "在大學圖書館當值，見馮子濠換了整齊深藍色長袖襯衫，十分期待晚上的約會。下午6:30交更出發。" },
-                    { time: "2026年 5月18日 23:15", title: "接到馮子濠求助電話", desc: "接到馮子濠打來的電話，馮語氣極為慌亂困惑，訴說公園長椅事件（牽手、海晴主動抱、自己輕輕搭大腿、海晴說「唔好啦」推開後跑走）。" },
-                    { time: "2026年 5月18日 23:30", title: "給予建議", desc: "認為馮非存心侵犯，只是氣氛下誤解意圖，建議馮透過 WhatsApp 誠懇道歉解釋誤會後掛斷電話。" }
+                    { time: "2026年 5月18日 16:00", title: "圖書館當值期待", desc: "見馮換了整齊深藍襯衫，十分期待晚上的約會[span_62](start_span)[span_62](end_span)。" },
+                    { time: "2026年 5月18日 23:15", title: "接到求助電話", desc: "接獲馮慌亂困惑的電話，訴說公園長椅事件經過[span_63](start_span)[span_63](end_span)。" },
+                    { time: "2026年 5月18日 23:30", title: "建議誠懇道歉", desc: "認為馮屬氣氛下的誤判而非故意侵犯，建議其透過 WhatsApp 誠懇道歉[span_64](start_span)[span_64](end_span)。" }
                 ]
             }
         };
 
+        // 證物數據庫
+        const evidenceData = [
+            { id: "P1", name: "控方證物 P1", desc: "溫海晴的 WhatsApp 手機截圖（包含馮子濠於 5月19日 01:02 發送的道歉訊息：「我頭先飲咗D酒有D控制唔到 如果冒犯到你真係對唔住呀」）[span_65](start_span)[span_65](end_span)[span_66](start_span)[span_66](end_span)." },
+            { id: "P2", name: "控方證物 P2", desc: "溫海晴案發當晚所穿的黑色薄紗長裙[span_67](start_span)[span_67](end_span)[span_68](start_span)[span_68](end_span)." },
+            { id: "P3", name: "控方證物 P3", desc: "案發時溫海晴及馮子濠所處位置之翠屏河公園實景圖[span_69](start_span)[span_69](end_span)[span_70](start_span)[span_70](end_span)." },
+            { id: "P4", name: "控方證物 P4", desc: "案發時溫海晴、馮子濠、林允嵐及梁逸辰的相對位置圖[span_71](start_span)[span_71](end_span)[span_72](start_span)[span_72](end_span)." },
+            { id: "D1a-e", name: "辯方證物 D1a-e", desc: "案發前馮子濠與溫海晴在 Omi 及 WhatsApp 的對話紀錄截圖，顯示雙方互動熱絡且具備好感[span_73](start_span)[span_73](end_span)." },
+            { id: "D2", name: "辯方證物 D2", desc: "馮子濠與周俊川案發後的通話紀錄截圖（顯示 5月18日 23:15 通話 14分32秒）[span_74](start_span)[span_74](end_span)[span_75](start_span)[span_75](end_span)." },
+            { id: "D3", name: "辯方證物 D3", desc: "案發當晚觀塘炭火居酒屋晚膳收據（總額 $1036.20，包辛口清酒兩盒）[span_76](start_span)[span_76](end_span)." }
+        ];
+
+        // 法庭挑戰題目
+        const quizData = [
+            {
+                q: "根據控罪內容，被告馮子濠被控違反香港法例第200章《刑事罪行條例》哪一條？[span_77](start_span)[span_77](end_span)",
+                options: ["第118條（強姦）", "第122條（猥褻侵犯）[span_78](start_span)[span_78](end_span)", "第130條（遊蕩）", "第150條（襲擊）"],
+                answer: 1
+            },
+            {
+                q: "辯方證人梁逸辰在案發當時正在翠屏河公園做甚麼？[span_79](start_span)[span_79](end_span)",
+                options: ["散步聊天", "夜跑並在空地拉筋[span_80](start_span)[span_80](end_span)", "坐在便利店買飲品", "等待朋友交更"],
+                answer: 1
+            },
+            {
+                q: "被告馮子濠在案發當晚透過 WhatsApp 發送道歉訊息的時間是？[span_81](start_span)[span_81](end_span)",
+                options: ["5月18日 22:52", "5月18日 23:30", "5月19日 01:02[span_82](start_span)[span_82](end_span)", "5月19日 08:30"],
+                answer: 2
+            },
+            {
+                q: "控方證人林允嵐在看見溫海晴與馮子濠坐在長椅時，相隔大約多遠的距離觀察？[span_83](start_span)[span_83](end_span)",
+                options: ["大約 5 至 6 米", "大約 15 米[span_84](start_span)[span_84](end_span)", "大約 50 米", "大約 80 米"],
+                answer: 1
+            }
+        ];
+        let currentQuiz = 0;
+
+        // 切換主選單 Tab
+        function switchTab(tab) {
+            document.getElementById('section-pov').classList.add('hidden');
+            document.getElementById('section-evidence').classList.add('hidden');
+            document.getElementById('section-quiz').classList.add('hidden');
+            
+            document.getElementById('tab-pov').className = "px-4 py-2 rounded-lg text-xs font-bold transition text-slate-400 hover:text-white";
+            document.getElementById('tab-evidence').className = "px-4 py-2 rounded-lg text-xs font-bold transition text-slate-400 hover:text-white";
+            document.getElementById('tab-quiz').className = "px-4 py-2 rounded-lg text-xs font-bold transition text-slate-400 hover:text-white";
+
+            if (tab === 'pov') {
+                document.getElementById('section-pov').classList.remove('hidden');
+                document.getElementById('tab-pov').className = "px-4 py-2 rounded-lg text-xs font-bold transition bg-rose-600 text-white shadow-md";
+            } else if (tab === 'evidence') {
+                document.getElementById('section-evidence').classList.remove('hidden');
+                document.getElementById('tab-evidence').className = "px-4 py-2 rounded-lg text-xs font-bold transition bg-indigo-600 text-white shadow-md";
+                renderEvidence();
+            } else if (tab === 'quiz') {
+                document.getElementById('section-quiz').classList.remove('hidden');
+                document.getElementById('tab-quiz').className = "px-4 py-2 rounded-lg text-xs font-bold transition bg-indigo-600 text-white shadow-md";
+                renderQuiz();
+            }
+        }
+
+        // 選擇證人
         function selectWitness(key) {
-            // 樣式切換
-            document.querySelectorAll('.witness-btn').forEach(btn => {
-                btn.className = "witness-btn w-full text-left px-3 py-2.5 rounded-lg text-sm font-medium transition flex items-center justify-between text-slate-600 hover:bg-slate-50";
+            // 按鈕樣式重置
+            ['wendy', 'tsui', 'lam', 'fung', 'leung', 'chow'].forEach(k => {
+                const btn = document.getElementById(`btn-${k}`);
+                btn.className = "w-full text-left p-3 rounded-xl transition text-slate-300 hover:bg-slate-800 border border-transparent flex justify-between items-center";
             });
             const activeBtn = document.getElementById(`btn-${key}`);
-            activeBtn.className = "witness-btn w-full text-left px-3 py-2.5 rounded-lg text-sm font-medium transition flex items-center justify-between bg-rose-50 text-rose-700 border border-rose-200 shadow-sm";
+            const isPro = ['wendy', 'tsui', 'lam'].includes(key);
+            activeBtn.className = `w-full text-left p-3 rounded-xl transition font-bold flex justify-between items-center shadow-md ${isPro ? 'bg-rose-600/20 text-rose-300 border border-rose-500/40' : 'bg-indigo-600/20 text-indigo-300 border border-indigo-500/40'}`;
 
-            // 載入資料
+            // 渲染證人資料
             const data = witnessData[key];
-            document.getElementById('w-name').innerText = data.name;
-            document.getElementById('w-meta').innerText = data.meta;
-            const badge = document.getElementById('w-badge');
-            badge.className = `px-3 py-1 rounded-full text-xs font-medium ${data.badgeClass}`;
-            badge.innerText = data.badgeText;
+            document.getElementById('p-name').innerText = data.name;
+            document.getElementById('p-meta').innerText = data.meta;
+            const badge = document.getElementById('p-badge');
+            badge.innerText = data.badge;
+            badge.className = `px-3 py-1 rounded-full text-xs font-semibold ${data.badgeClass}`;
 
             // 渲染時間綫
-            const container = document.getElementById('timeline-container');
-            container.innerHTML = '';
-
-            data.events.forEach((ev, index) => {
-                const item = document.createElement('div');
-                item.className = "relative pl-6 group";
-                item.innerHTML = `
-                    <div class="absolute -left-[25px] top-1.5 w-4 h-4 rounded-full bg-white border-4 border-indigo-600 group-hover:scale-110 transition"></div>
-                    <div class="bg-slate-50 rounded-lg p-4 border border-slate-200 hover:shadow-md transition">
-                        <span class="text-xs font-bold text-indigo-600 bg-indigo-50 px-2 py-0.5 rounded border border-indigo-100">${ev.time}</span>
-                        <h3 class="text-base font-bold text-slate-900 mt-2">${ev.title}</h3>
-                        <p class="text-sm text-slate-600 mt-1 leading-relaxed">${ev.desc}</p>
+            const timeline = document.getElementById('pov-timeline');
+            timeline.innerHTML = '';
+            data.events.forEach((ev, idx) => {
+                const div = document.createElement('div');
+                div.className = "relative pl-6";
+                div.innerHTML = `
+                    <div class="absolute -left-[25px] top-1.5 w-4 h-4 rounded-full bg-slate-950 border-4 border-indigo-500 shadow"></div>
+                    <div class="bg-slate-950/60 p-4 rounded-xl border border-slate-800 hover:border-slate-700 transition">
+                        <span class="text-xs font-bold text-indigo-400 bg-indigo-500/10 px-2 py-0.5 rounded border border-indigo-500/20">${ev.time}</span>
+                        <h3 class="text-base font-bold text-white mt-2">${ev.title}</h3>
+                        <p class="text-sm text-slate-300 mt-1 leading-relaxed">${ev.desc}</p>
                     </div>
                 `;
-                container.appendChild(item);
+                timeline.appendChild(div);
             });
         }
 
-        // 初始化預設載入溫海晴
+        // 渲染證物
+        function renderEvidence() {
+            const grid = document.getElementById('evidence-grid');
+            if (grid.children.length > 0) return; // 避免重複渲染
+            evidenceData.forEach(item => {
+                const card = document.createElement('div');
+                card.className = "bg-slate-950/60 p-4 rounded-xl border border-slate-800 hover:border-indigo-500/50 transition flex flex-col justify-between";
+                card.innerHTML = `
+                    <div>
+                        <span class="text-xs font-bold text-rose-400 bg-rose-500/10 px-2 py-0.5 rounded border border-rose-500/20">${item.id}</span>
+                        <h3 class="text-base font-bold text-white mt-2">${item.name}</h3>
+                        <p class="text-xs text-slate-300 mt-2 leading-relaxed">${item.desc}</p>
+                    </div>
+                    <div class="mt-4 pt-3 border-t border-slate-900 text-[11px] text-indigo-400 font-medium flex items-center justify-between">
+                        <span>法庭審訊證物</span>
+                        <span>🔍 查閱詳情</span>
+                    </div>
+                `;
+                grid.appendChild(card);
+            });
+        }
+
+        // 渲染測驗
+        function renderQuiz() {
+            const container = document.getElementById('quiz-container');
+            const q = quizData[currentQuiz];
+            document.getElementById('quiz-progress').innerText = `題目 ${currentQuiz + 1} / ${quizData.length}`;
+            
+            let html = `
+                <h3 class="text-lg font-bold text-white mb-4">${q.q}</h3>
+                <div class="space-y-3" id="quiz-options">
+            `;
+            q.options.forEach((opt, idx) => {
+                html += `<button onclick="checkAnswer(${idx})" class="w-full text-left p-3.5 rounded-xl bg-slate-950/80 border border-slate-800 hover:bg-slate-800 text-sm font-medium transition">${opt}</button>`;
+            });
+            html += `</div><div id="quiz-feedback" class="mt-4 text-sm font-bold"></div>`;
+            container.innerHTML = html;
+        }
+
+        function checkAnswer(selected) {
+            const q = quizData[currentQuiz];
+            const feedback = document.getElementById('quiz-feedback');
+            if (selected === q.answer) {
+                feedback.innerHTML = `<span class="text-emerald-400">✅ 答對了！這符合案卷中的事實基礎與供詞[span_85](start_span)[span_85](end_span)。</span>`;
+                setTimeout(() => {
+                    currentQuiz = (currentQuiz + 1) % quizData.length;
+                    renderQuiz();
+                }, 1500);
+            } else {
+                feedback.innerHTML = `<span class="text-rose-400">❌ 答錯了，請再回顧證人供詞或證物內容！</span>`;
+            }
+        }
+
+        // 初始化載入溫海晴視角
         window.onload = function() {
             selectWitness('wendy');
         };
